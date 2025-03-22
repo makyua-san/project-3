@@ -25,6 +25,32 @@ type AudioData = {
 export class SpeechService extends BaseSpeechService {
   private soundObject: Audio.Sound | null = null;
 
+  constructor() {
+    super();
+    // 起動時にキャッシュディレクトリの内容を表示
+    this.listCachedFiles();
+  }
+
+  /**
+   * キャッシュディレクトリ内のファイル一覧を取得して表示します
+   */
+
+  // 本当の実装ではキャッシュは削除するコードを入れておく
+  async listCachedFiles(): Promise<void> {
+    if (!FileSystem.cacheDirectory) {
+      console.log('🔍 cacheDirectoryが利用できません');
+      return;
+    }
+
+    try {
+      const fileList = await FileSystem.readDirectoryAsync(FileSystem.cacheDirectory);
+      console.log('🔍 キャッシュディレクトリ内のファイル一覧:');
+      console.log(`🔍 合計: ${fileList.length}ファイル`);
+    } catch (error) {
+      console.error('🔍 ファイル一覧取得エラー:', error);
+    }
+  }
+
   /**
    * 指定されたテキストを音声で読み上げます
    * @param text 読み上げるテキスト
@@ -36,6 +62,9 @@ export class SpeechService extends BaseSpeechService {
     if (!this.isEnabled) return;
     
     try {
+      // キャッシュディレクトリの内容を表示
+      await this.listCachedFiles();
+      
       // 既に音声を再生中の場合は停止
       await this.stop();
 
@@ -82,7 +111,6 @@ export class SpeechService extends BaseSpeechService {
           }
         );
 
-        console.log('🔍 Audio.Sound.createAsync完了、soundオブジェクト:', sound);
         this.soundObject = sound;
 
         // 音声を再生
