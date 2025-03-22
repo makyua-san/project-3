@@ -13,7 +13,10 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { ChatMessage } from '@/components/ChatMessage';
 import { ChatInput } from '@/components/ChatInput';
 import { Volume2, VolumeX } from 'lucide-react-native';
-import { SpeechService } from '@/utils/speech';
+
+// 音声読み上げソフトを選択
+// import { SpeechService } from '@/utils/speech';
+import { SpeechService } from '@/utils/expo-speech';
 
 type Message = {
   text: string;
@@ -39,6 +42,7 @@ export default function Chat() {
   const [isTTSEnabled, setIsTTSEnabled] = useState(true);
   const scrollViewRef = useRef<ScrollView>(null);
   const speechService = useRef(new SpeechService());
+
 
   const toggleTTS = () => {
     speechService.current.toggle();
