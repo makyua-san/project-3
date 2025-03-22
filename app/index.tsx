@@ -16,7 +16,8 @@ import { Volume2, VolumeX } from 'lucide-react-native';
 
 // 音声読み上げソフトを選択
 // import { SpeechService } from '@/utils/speech';
-import { SpeechService } from '@/utils/expo-speech';
+// import { SpeechService } from '@/utils/expo-speech';
+import { SpeechService } from '@/utils/zonos-speech';
 
 type Message = {
   text: string;
